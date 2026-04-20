@@ -31,7 +31,7 @@ export function LoginForm() {
   );
 }
 
-export function MetricsForm({ initial, onSave }: { initial: WeekMetrics; onSave: (payload: WeekMetrics) => Promise<void> }) {
+export function MetricsForm({ initial, onSave }: { initial: WeekMetrics; onSave: (payload: WeekMetrics) => Promise<unknown> }) {
   const [form, setForm] = useState<WeekMetrics>(initial);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
