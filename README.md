@@ -47,3 +47,6 @@ NEXT_PUBLIC_TELEGRAM_BOT_USERNAME=your_bot_username
 
 
 Telegram вход: кнопка на странице логина открывает бота по deep-link и ожидает подтверждение с polling статуса.
+
+
+Если `NEXT_PUBLIC_API_BASE_URL` не задан, frontend использует относительный `/api` на текущем домене.
