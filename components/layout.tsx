@@ -5,13 +5,13 @@ import { ReactNode, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  ['Dashboard', '/dashboard'],
-  ['Restaurants', '/restaurants'],
-  ['Weeks', '/weeks'],
-  ['Metrics', '/metrics'],
-  ['Issues', '/issues'],
-  ['Tasks', '/tasks'],
-  ['Prices', '/prices'],
+  ['Дашборд', '/dashboard'],
+  ['Рестораны', '/restaurants'],
+  ['Недели', '/weeks'],
+  ['Метрики', '/metrics'],
+  ['Проблемы', '/issues'],
+  ['Задачи', '/tasks'],
+  ['Цены', '/prices'],
 ] as const;
 
 export function AppLayout({ children }: { children: ReactNode }) {

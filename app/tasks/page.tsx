@@ -7,7 +7,7 @@ export default async function TasksPage() {
   const tasks = await getTasks();
   return (
     <AppLayout>
-      <PageTitle title="Tasks" subtitle="Управление задачами" />
+      <PageTitle title="Задачи" subtitle="Управление задачами" />
       <TasksBoard tasks={tasks} />
     </AppLayout>
   );

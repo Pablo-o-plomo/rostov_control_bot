@@ -7,7 +7,7 @@ export default async function IssuesPage() {
   const issues = await getIssues();
   return (
     <AppLayout>
-      <PageTitle title="Issues" subtitle="Проблемы с фильтрами" />
+      <PageTitle title="Проблемы" subtitle="Проблемы с фильтрами" />
       <IssuesTable issues={issues} />
     </AppLayout>
   );

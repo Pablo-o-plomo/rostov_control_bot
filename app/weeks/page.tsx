@@ -8,7 +8,7 @@ export default async function WeeksPage() {
 
   return (
     <AppLayout>
-      <PageTitle title="Weeks" subtitle="Сводный список недель" />
+      <PageTitle title="Недели" subtitle="Сводный список недель" />
       <div className="space-y-3">
         {weeks.map((week) => (
           <Link key={week.id} href={`/weeks/${week.id}`}>

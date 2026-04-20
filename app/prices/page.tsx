@@ -8,7 +8,7 @@ export default async function PricesPage() {
 
   return (
     <AppLayout>
-      <PageTitle title="Prices" subtitle="Контроль закупочных цен" />
+      <PageTitle title="Закупочные цены" subtitle="Контроль закупочных цен" />
       <PricesTable initial={prices} />
     </AppLayout>
   );
