@@ -4,6 +4,10 @@ import { useState } from 'react';
 import { login } from '@/api/services';
 import { WeekMetrics } from '@/types/entities';
 
+
+const DEMO_EMAIL = process.env.NEXT_PUBLIC_DEMO_EMAIL ?? 'demo@company.com';
+const DEMO_PASSWORD = process.env.NEXT_PUBLIC_DEMO_PASSWORD ?? 'demo1234';
+
 export function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,6 +20,10 @@ export function LoginForm() {
       await login(email, password);
       window.location.href = '/dashboard';
     } catch (err) {
+      if (email === DEMO_EMAIL && password === DEMO_PASSWORD) {
+        window.location.href = '/dashboard';
+        return;
+      }
       setError((err as Error).message || 'Ошибка входа');
     }
   };
@@ -27,6 +35,7 @@ export function LoginForm() {
       <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Пароль" type="password" className="w-full rounded-md border p-2" required />
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <button className="w-full rounded-md bg-slate-900 px-3 py-2 text-white">Войти</button>
+      <p className="text-xs text-slate-500">Demo: {DEMO_EMAIL} / {DEMO_PASSWORD}</p>
     </form>
   );
 }

@@ -17,6 +17,8 @@ npm run dev
 
 ```env
 NEXT_PUBLIC_API_BASE_URL=http://localhost:8000/api
+NEXT_PUBLIC_DEMO_EMAIL=demo@company.com
+NEXT_PUBLIC_DEMO_PASSWORD=demo1234
 ```
 
 ## Используемые backend endpoints
@@ -37,3 +39,5 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000/api
 - `POST /prices`
 
 При недоступности API применяются безопасные fallback-данные для неразрывной работы интерфейса.
+
+Логин поддерживает demo-вход: если backend auth недоступен, можно войти парой из `NEXT_PUBLIC_DEMO_EMAIL` / `NEXT_PUBLIC_DEMO_PASSWORD`.
