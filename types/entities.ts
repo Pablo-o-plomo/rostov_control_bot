@@ -91,3 +91,14 @@ export interface PriceRecord {
   deltaPercent: number;
   status: HealthStatus;
 }
+
+
+export interface TelegramAuthSession {
+  token: string;
+  botUsername?: string;
+}
+
+export interface TelegramAuthStatus {
+  status: 'pending' | 'confirmed' | 'expired';
+  accessToken?: string;
+}

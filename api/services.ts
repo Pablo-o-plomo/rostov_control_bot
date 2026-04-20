@@ -1,6 +1,6 @@
 import { request } from '@/api/http';
 import { fallbackBlocks, fallbackIssues, fallbackMetrics, fallbackPrices, fallbackRestaurants, fallbackTasks, fallbackWeeks } from '@/api/fallback';
-import { Issue, PriceRecord, RestaurantSummary, RestaurantWeekSummary, Task, WeekBlock, WeekMetrics } from '@/types/entities';
+import { Issue, PriceRecord, RestaurantSummary, RestaurantWeekSummary, Task, TelegramAuthSession, TelegramAuthStatus, WeekBlock, WeekMetrics } from '@/types/entities';
 
 const withFallback = async <T>(loader: () => Promise<T>, fallback: T): Promise<T> => {
   try {
@@ -29,3 +29,7 @@ export const updateTaskStatus = (taskId: string, status: Task['status']) => requ
 
 export const getPrices = () => withFallback(() => request<PriceRecord[]>('/prices'), fallbackPrices);
 export const addPrice = (payload: Omit<PriceRecord, 'id' | 'deltaPercent' | 'status'>) => request<PriceRecord>('/prices', { method: 'POST', body: JSON.stringify(payload) });
+
+
+export const startTelegramAuth = () => request<TelegramAuthSession>('/auth/telegram/start', { method: 'POST' });
+export const getTelegramAuthStatus = (token: string) => request<TelegramAuthStatus>(`/auth/telegram/status?token=${encodeURIComponent(token)}`);

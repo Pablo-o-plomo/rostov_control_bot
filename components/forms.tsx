@@ -1,17 +1,54 @@
 'use client';
 
 import { useState } from 'react';
-import { login } from '@/api/services';
+import { getTelegramAuthStatus, login, startTelegramAuth } from '@/api/services';
 import { WeekMetrics } from '@/types/entities';
-
 
 const DEMO_EMAIL = process.env.NEXT_PUBLIC_DEMO_EMAIL ?? 'demo@company.com';
 const DEMO_PASSWORD = process.env.NEXT_PUBLIC_DEMO_PASSWORD ?? 'demo1234';
+const TELEGRAM_BOT_USERNAME = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ?? '';
 
 export function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [telegramLoading, setTelegramLoading] = useState(false);
+
+  const onTelegramLogin = async () => {
+    setError(null);
+    setTelegramLoading(true);
+    try {
+      const session = await startTelegramAuth();
+      const botUsername = session.botUsername || TELEGRAM_BOT_USERNAME;
+      if (!botUsername) {
+        throw new Error('Не задан Telegram bot username');
+      }
+
+      window.open(`https://t.me/${botUsername}?start=${session.token}`, '_blank');
+
+      const poll = async () => {
+        const status = await getTelegramAuthStatus(session.token);
+        if (status.status === 'confirmed') {
+          window.location.href = '/dashboard';
+          return;
+        }
+        if (status.status === 'expired') {
+          setError('Сессия Telegram входа истекла. Запустите снова.');
+          setTelegramLoading(false);
+          return;
+        }
+        setTimeout(poll, 3000);
+      };
+
+      setTimeout(poll, 3000);
+    } catch (err) {
+      if (TELEGRAM_BOT_USERNAME) {
+        window.open(`https://t.me/${TELEGRAM_BOT_USERNAME}`, '_blank');
+      }
+      setError((err as Error).message || 'Не удалось начать вход через Telegram');
+      setTelegramLoading(false);
+    }
+  };
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +72,9 @@ export function LoginForm() {
       <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Пароль" type="password" className="w-full rounded-md border p-2" required />
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <button className="w-full rounded-md bg-slate-900 px-3 py-2 text-white">Войти</button>
+      <button type="button" onClick={onTelegramLogin} className="w-full rounded-md border border-slate-300 px-3 py-2" disabled={telegramLoading}>
+        {telegramLoading ? 'Ожидание подтверждения в Telegram...' : 'Войти через Telegram'}
+      </button>
       <p className="text-xs text-slate-500">Demo: {DEMO_EMAIL} / {DEMO_PASSWORD}</p>
     </form>
   );
